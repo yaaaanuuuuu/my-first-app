@@ -1,0 +1,36 @@
+# 1. 필요한 라이브러리 설치 (코랩 터미널용)
+# !pip install streamlit
+
+# 2. app.py 파일 만들기
+content = """
+import streamlit as st
+
+def analyze_speech(text):
+    # 간단한 분석 로직 (단어 수 계산 및 키워드 매칭)
+    words = text.split()
+    word_count = len(words)
+    
+    feedback = ""
+    if "안해" in text or "싫어" in text:
+        feedback = "거부 의사를 표현했군요. 아동의 감정을 읽어준 뒤 선택권을 주어보세요."
+    elif "이거" in text or "저거" in text:
+        feedback = "지시 대명사를 사용 중입니다. 구체적인 사물 명칭으로 모델링 해주세요."
+    else:
+        feedback = "적절한 발화입니다. 확장을 통해 문장을 길게 만들어주세요."
+        
+    return word_count, feedback
+
+# UI 구성
+st.title("💡 아동 발화 분석 및 코칭 도구")
+st.write("아동의 발화를 입력하면 간단한 분석과 피드백을 제공합니다.")
+
+user_input = st.text_input("아동의 발화를 입력하세요:", "선생님 이거 싫어")
+
+if st.button("분석하기"):
+    count, advice = analyze_speech(user_input)
+    st.info(f"**분석 결과:** 어절 수 약 {count}개")
+    st.success(f"**추천 피드백:** {advice}")
+"""
+
+with open('app.py', 'w') as f:
+    f.write(content)
